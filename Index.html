@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Eliminación de cuenta y datos · Nexus Billings</title>
+<meta name="description" content="Cómo solicitar la eliminación de tu cuenta y datos de la app Nexus Billings." />
+<style>
+  :root {
+    --brand: #EA580C;
+    --text: #18181B;
+    --muted: #71717A;
+    --surface: #FFFFFF;
+    --bg: #F4F4F5;
+    --border: #E4E4E7;
+    --success: #16A34A;
+    --danger: #DC2626;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .container { max-width: 760px; margin: 0 auto; padding: 40px 24px 64px; }
+  header {
+    background: var(--brand);
+    color: #FFF;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  header h1 { margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.3px; }
+  header .tagline { margin-top: 6px; font-size: 15px; opacity: 0.9; }
+  .lang-switch { text-align: right; margin-bottom: 12px; }
+  .lang-switch a { color: var(--brand); text-decoration: none; font-weight: 700; margin-left: 12px; cursor: pointer; }
+  .lang-switch a.active { text-decoration: underline; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FEE2E2;
+    color: var(--danger);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .updated { color: var(--muted); font-size: 13px; margin: 12px 0 24px; }
+  section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; }
+  section h2 { margin: 0 0 10px; font-size: 18px; color: var(--text); }
+  section p, section li { color: #27272A; font-size: 15px; margin: 8px 0; }
+  section ol, section ul { padding-left: 22px; margin: 8px 0; }
+  .callout { background: #FFF7ED; border-left: 4px solid var(--brand); padding: 12px 16px; border-radius: 8px; margin: 12px 0; }
+  .cta {
+    display: inline-block;
+    background: var(--brand);
+    color: #FFF !important;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 8px;
+  }
+  footer { margin-top: 40px; text-align: center; color: var(--muted); font-size: 13px; }
+  a { color: var(--brand); }
+  .hide { display: none; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: #FAFAFA; color: var(--muted); font-weight: 700; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Nexus Billings</h1>
+  <div class="tagline">Eliminación de cuenta y datos · Account &amp; Data Deletion</div>
+</header>
+
+<div class="container">
+  <div class="lang-switch">
+    <a class="active" id="btn-es" onclick="showLang('es');return false;">Español</a>
+    <a id="btn-en" onclick="showLang('en');return false;">English</a>
+  </div>
+
+  <div id="es">
+    <span class="badge">🗑️ Solicitud de eliminación</span>
+    <div class="updated">Aplicable a la app <b>Nexus Billings</b> (com.nexusbillings.app) · Última actualización: 18 de julio de 2026</div>
+
+    <section>
+      <h2>1. Resumen rápido</h2>
+      <p><b>Nexus Billings</b> es una aplicación 100% local (offline-first). Todos tus datos (facturas, clientes, fotos, PIN, ajustes) se guardan únicamente en tu dispositivo. No mantenemos una base de datos de usuarios en servidores externos.</p>
+      <p>Por eso, la forma más rápida y completa de eliminar tu cuenta y tus datos es directamente desde el dispositivo. Abajo te explicamos los dos casos.</p>
+    </section>
+
+    <section>
+      <h2>2. Cómo eliminar tu cuenta y datos desde la app</h2>
+      <ol>
+        <li>Abre <b>Nexus Billings</b> en tu teléfono.</li>
+        <li>Ve a <b>Ajustes</b> (Settings) → <b>Cuenta y seguridad</b>.</li>
+        <li>Toca <b>Eliminar todos los datos</b> (o <b>Restablecer app</b>). Confirma con tu PIN o biometría.</li>
+        <li>Alternativamente, desde el sistema operativo:
+          <ul>
+            <li><b>Android:</b> Ajustes del teléfono → Aplicaciones → Nexus Billings → Almacenamiento → <b>Borrar datos</b>, y luego <b>Desinstalar</b>.</li>
+            <li><b>iOS:</b> Mantén presionado el ícono de la app → <b>Eliminar app</b>.</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="callout">
+        Esto borra de forma permanente e irreversible todos los datos locales: facturas, clientes, fotos, firmas, PIN, tokens y ajustes.
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Eliminar los respaldos de Google Drive (si los activaste)</h2>
+      <p>Si conectaste tu cuenta de Google para hacer copias de seguridad automáticas, esos archivos están dentro de <b>tu propio</b> Google Drive, en la carpeta oculta <code>appDataFolder</code>. Nunca los recibimos ni podemos verlos.</p>
+      <ol>
+        <li>Dentro de la app, abre <b>Ajustes</b> → <b>Respaldo en la nube</b> → <b>Desconectar Google Drive</b>. Esto revoca el token localmente.</li>
+        <li>Para borrar los archivos ya subidos, entra a <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">https://myaccount.google.com/permissions</a>, busca <b>Nexus Billings</b> y toca <b>Quitar acceso</b>. Google eliminará automáticamente los archivos del <i>appDataFolder</i>.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>4. Solicitar la eliminación por correo (GDPR / CCPA)</h2>
+      <p>Si no puedes acceder a tu dispositivo o prefieres que confirmemos la eliminación por escrito, envíanos un correo desde la dirección asociada a tu cuenta:</p>
+      <p><a class="cta" href="mailto:support@nexusbillings.app?subject=Solicitud%20de%20eliminaci%C3%B3n%20de%20cuenta%20-%20Nexus%20Billings">Enviar solicitud a support@nexusbillings.app</a></p>
+      <p>Incluye en el correo: nombre de la app (Nexus Billings), correo de la cuenta que quieres eliminar y, opcionalmente, el motivo. Responderemos en un plazo máximo de <b>30 días</b>.</p>
+    </section>
+
+    <section>
+      <h2>5. Qué datos se eliminan y qué datos se conservan</h2>
+      <table>
+        <tr><th>Tipo de dato</th><th>Al eliminar</th><th>Retención</th></tr>
+        <tr><td>Facturas, cotizaciones, clientes, fotos, firmas</td><td>Eliminados de tu dispositivo</td><td>Ninguna (solo estaban en el dispositivo)</td></tr>
+        <tr><td>PIN, biometría, respuestas de seguridad</td><td>Eliminados del Keychain/Keystore</td><td>Ninguna</td></tr>
+        <tr><td>Claves de Stripe y tokens de Google Drive</td><td>Eliminados de forma segura</td><td>Ninguna</td></tr>
+        <tr><td>Respaldos en tu Google Drive</td><td>Los borra Google al revocar el acceso</td><td>Controlado por tu cuenta Google</td></tr>
+        <tr><td>Registros anónimos de crash reports</td><td>Se disocian de tu correo</td><td>Hasta 90 días para diagnóstico</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>6. Contacto</h2>
+      <p>¿Dudas o problemas? Escríbenos a <a href="mailto:support@nexusbillings.app">support@nexusbillings.app</a>.</p>
+      <p>Consulta también nuestra <a href="./privacy.html">Política de Privacidad</a>.</p>
+    </section>
+  </div>
+
+  <div id="en" class="hide">
+    <span class="badge">🗑️ Deletion request</span>
+    <div class="updated">Applies to the <b>Nexus Billings</b> app (com.nexusbillings.app) · Last updated: July 18, 2026</div>
+
+    <section>
+      <h2>1. Quick summary</h2>
+      <p><b>Nexus Billings</b> is a 100% local (offline-first) app. All your data (invoices, clients, photos, PIN, settings) lives only on your device. We do not maintain a user database on external servers.</p>
+      <p>The fastest and most complete way to delete your account and data is directly from the device.</p>
+    </section>
+
+    <section>
+      <h2>2. How to delete your account and data</h2>
+      <ol>
+        <li>Open <b>Nexus Billings</b> on your phone.</li>
+        <li>Go to <b>Settings</b> → <b>Account &amp; Security</b>.</li>
+        <li>Tap <b>Delete all data</b>. Confirm with your PIN or biometrics.</li>
+        <li>Or, from the OS:
+          <ul>
+            <li><b>Android:</b> Settings → Apps → Nexus Billings → Storage → <b>Clear data</b>, then <b>Uninstall</b>.</li>
+            <li><b>iOS:</b> Long-press the app icon → <b>Delete App</b>.</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="callout">This permanently and irreversibly deletes all local data.</div>
+    </section>
+
+    <section>
+      <h2>3. Delete Google Drive backups</h2>
+      <p>If you enabled backups, files live in your own Google Drive (hidden <code>appDataFolder</code>). We never receive them.</p>
+      <ol>
+        <li>In the app: <b>Settings</b> → <b>Cloud backup</b> → <b>Disconnect Google Drive</b>.</li>
+        <li>To delete uploaded files: <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">https://myaccount.google.com/permissions</a> → find <b>Nexus Billings</b> → <b>Remove access</b>.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>4. Request deletion by email (GDPR / CCPA)</h2>
+      <p><a class="cta" href="mailto:support@nexusbillings.app?subject=Account%20deletion%20request%20-%20Nexus%20Billings">Send request to support@nexusbillings.app</a></p>
+      <p>Include: app name (Nexus Billings) and account email. We reply within <b>30 days</b>.</p>
+    </section>
+
+    <section>
+      <h2>5. What data is deleted</h2>
+      <table>
+        <tr><th>Data type</th><th>On deletion</th><th>Retention</th></tr>
+        <tr><td>Invoices, quotes, clients, photos, signatures</td><td>Removed from device</td><td>None</td></tr>
+        <tr><td>PIN, biometrics, security answers</td><td>Wiped from Keychain/Keystore</td><td>None</td></tr>
+        <tr><td>Stripe keys and Google Drive tokens</td><td>Securely wiped</td><td>None</td></tr>
+        <tr><td>Google Drive backups</td><td>Deleted by Google on revoke</td><td>Controlled by user</td></tr>
+        <tr><td>Anonymous crash logs</td><td>Dissociated from email</td><td>Up to 90 days</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>6. Contact</h2>
+      <p>Email <a href="mailto:support@nexusbillings.app">support@nexusbillings.app</a>.</p>
+      <p>See also our <a href="./privacy.html">Privacy Policy</a>.</p>
+    </section>
+  </div>
+
+  <footer>© 2026 Nexus Billings · com.nexusbillings.app</footer>
+</div>
+
+<script>
+  function showLang(lang) {
+    document.getElementById('es').classList.toggle('hide', lang !== 'es');
+    document.getElementById('en').classList.toggle('hide', lang !== 'en');
+    document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang;
+  }
+  (function(){
+    var l = (navigator.language || 'es').toLowerCase();
+    if (l.indexOf('en') === 0) showLang('en');
+  })();
+</script>
+</body>
+</html>
