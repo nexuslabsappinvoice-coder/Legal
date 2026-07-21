@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Privacy Policy · Nexus Billings</title>
+<style>
+  :root {
+    --brand: #EA580C;
+    --text: #18181B;
+    --muted: #71717A;
+    --surface: #FFFFFF;
+    --bg: #F4F4F5;
+    --border: #E4E4E7;
+    --success: #16A34A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .container { max-width: 760px; margin: 0 auto; padding: 40px 24px 64px; }
+  header {
+    background: var(--brand);
+    color: #FFF;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  header h1 { margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -0.3px; }
+  header .tagline { margin-top: 6px; font-size: 15px; opacity: 0.9; }
+  .lang-switch { text-align: right; margin-bottom: 12px; }
+  .lang-switch a { color: var(--brand); text-decoration: none; font-weight: 700; margin-left: 12px; cursor: pointer; }
+  .lang-switch a.active { text-decoration: underline; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FFEDD5;
+    color: var(--success);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .updated { color: var(--muted); font-size: 13px; margin: 12px 0 24px; }
+  section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; }
+  section h2 { margin: 0 0 10px; font-size: 18px; color: var(--text); }
+  section p, section li { color: #27272A; font-size: 15px; margin: 8px 0; }
+  section ul { padding-left: 22px; margin: 8px 0; }
+  footer { margin-top: 40px; text-align: center; color: var(--muted); font-size: 13px; }
+  a { color: var(--brand); }
+  .hide { display: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Nexus Billings</h1>
+  <div class="tagline">Privacy Policy · Política de Privacidad</div>
+</header>
+<div class="container">
+  <div class="lang-switch">
+    <a class="active" id="btn-es" onclick="showLang('es');return false;">Español</a>
+    <a id="btn-en" onclick="showLang('en');return false;">English</a>
+  </div>
+
+  <div id="es">
+    <span class="badge">🛡️ 100% local · Sin servidores</span>
+    <div class="updated">Aplicable a la app <b>Nexus Billings</b> (com.nexusbillings.app) · Última actualización: 20 de julio de 2026</div>
+
+    <section>
+      <h2>1. Resumen honesto</h2>
+      <p><b>Nexus Billings</b> es una aplicación 100% local (offline-first). NO recolectamos, transmitimos ni almacenamos datos personales tuyos ni de tus clientes en servidores propios.</p>
+      <p>Toda tu información — facturas, clientes, fotos, firmas, claves de Stripe, notas — vive únicamente en tu dispositivo, dentro del almacenamiento cifrado del sistema operativo.</p>
+    </section>
+
+    <section>
+      <h2>2. Qué datos guarda la app en tu dispositivo</h2>
+      <ul>
+        <li>Datos comerciales: facturas, cotizaciones, clientes, fotos que tú adjuntas.</li>
+        <li>Datos sensibles cifrados: PIN, respuestas de seguridad y clave secreta de Stripe (si la configuras). Se guardan en Keychain (iOS) / Keystore (Android) usando expo-secure-store.</li>
+        <li>Preferencias: idioma, moneda, colores de marca.</li>
+      </ul>
+      <p>Nada de esto sale de tu teléfono a menos que TÚ lo compartas manualmente.</p>
+    </section>
+
+    <section>
+      <h2>3. Terceros</h2>
+      <p>La app solo se comunica con servicios externos cuando TÚ lo activas:</p>
+      <ul>
+        <li><b>Stripe</b> (api.stripe.com) — para generar enlaces de pago. Tu clave secreta y los cargos son procesados 100% por Stripe; nosotros no recibimos copia.</li>
+        <li><b>Google Drive</b> (googleapis.com) — solo si activas los respaldos automáticos. Los archivos se guardan cifrados (AES-256-GCM) en la carpeta oculta <i>appDataFolder</i> de TU propio Drive. Nunca los recibimos ni podemos leerlos. Puedes revocar el acceso en cualquier momento en <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.</li>
+        <li><b>Aplicaciones nativas</b> (Mail, WhatsApp, SMS) — al enviar una factura, el sistema operativo abre esas apps con el PDF y el texto pre-llenados.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Permisos que solicita la app</h2>
+      <ul>
+        <li>Cámara y fotos: para adjuntar logos, IDs y evidencias a tus facturas.</li>
+        <li>Biometría (Face ID / huella): para desbloquear la app rápidamente.</li>
+        <li>Almacenamiento: para guardar respaldos y PDFs.</li>
+        <li>Notificaciones (opcional): recordatorios de facturas próximas a vencer.</li>
+      </ul>
+      <p>No pedimos ubicación, contactos, micrófono ni SMS.</p>
+    </section>
+
+    <section>
+      <h2>5. Menores</h2>
+      <p>Nexus Billings es una herramienta comercial para adultos que administran su negocio. No dirigimos la app a menores de 13 años.</p>
+    </section>
+
+    <section>
+      <h2>6. Eliminación de datos</h2>
+      <p>Puedes borrar tus datos en cualquier momento desde la app (Ajustes → Cuenta y seguridad → Eliminar todos los datos) o por correo. Los detalles completos están en nuestra <a href="./Index.html">página de eliminación de cuenta y datos</a>.</p>
+    </section>
+
+    <section>
+      <h2>7. Cambios y contacto</h2>
+      <p>Si actualizamos esta política, publicaremos la nueva versión aquí y dentro de la app.</p>
+      <p>Para dudas o solicitudes GDPR/CCPA (borrado, exportación), escríbenos a <a href="mailto:support@nexusbillings.app">support@nexusbillings.app</a>.</p>
+    </section>
+  </div>
+
+  <div id="en" class="hide">
+    <span class="badge">🛡️ 100% local · No servers</span>
+    <div class="updated">Applies to the <b>Nexus Billings</b> app (com.nexusbillings.app) · Last updated: July 20, 2026</div>
+
+    <section>
+      <h2>1. Honest summary</h2>
+      <p><b>Nexus Billings</b> is a 100% local, offline-first app. We do NOT collect, transmit or store any of your data or your clients' data on our own servers.</p>
+      <p>All your information — invoices, clients, photos, signatures, Stripe keys, notes — lives solely on your device, inside the operating system's encrypted storage.</p>
+    </section>
+
+    <section>
+      <h2>2. What the app stores on your device</h2>
+      <ul>
+        <li>Business data: invoices, estimates, clients, photos you attach.</li>
+        <li>Encrypted sensitive data: PIN, security answers and Stripe secret key (if configured). Stored in Keychain (iOS) / Keystore (Android) via expo-secure-store.</li>
+        <li>Preferences: language, currency, brand colors.</li>
+      </ul>
+      <p>None of this leaves your phone unless YOU manually share it.</p>
+    </section>
+
+    <section>
+      <h2>3. Third parties</h2>
+      <p>The app only talks to third parties when YOU trigger it:</p>
+      <ul>
+        <li><b>Stripe</b> (api.stripe.com) — to generate payment links. Your secret key and charges are handled 100% by Stripe; we don't receive a copy.</li>
+        <li><b>Google Drive</b> (googleapis.com) — only if you enable automatic backups. Files are stored AES-256-GCM encrypted inside the hidden <i>appDataFolder</i> of YOUR own Drive. We never receive or read them. Revoke access anytime at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.</li>
+        <li><b>Native apps</b> (Mail, WhatsApp, SMS) — when sending an invoice, the OS opens those apps with the PDF and text pre-filled.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Permissions the app requests</h2>
+      <ul>
+        <li>Camera and photos: to attach logos, IDs and proof to your invoices.</li>
+        <li>Biometrics (Face ID / fingerprint): to quickly unlock the app.</li>
+        <li>Storage: to save backups and PDFs.</li>
+        <li>Notifications (optional): reminders for invoices about to expire.</li>
+      </ul>
+      <p>We do NOT request location, contacts, microphone, or SMS.</p>
+    </section>
+
+    <section>
+      <h2>5. Minors</h2>
+      <p>Nexus Billings is a business tool aimed at adults. We do not target children under 13.</p>
+    </section>
+
+    <section>
+      <h2>6. Data deletion</h2>
+      <p>You can delete your data anytime from the app (Settings → Account &amp; Security → Delete all data) or by email. Full details on our <a href="./Index.html">account &amp; data deletion page</a>.</p>
+    </section>
+
+    <section>
+      <h2>7. Changes and contact</h2>
+      <p>If we update this policy, the new version will appear here and inside the app.</p>
+      <p>For GDPR/CCPA requests (deletion, export), email us at <a href="mailto:support@nexusbillings.app">support@nexusbillings.app</a>.</p>
+    </section>
+  </div>
+
+  <footer>© 2026 Nexus Billings · com.nexusbillings.app</footer>
+</div>
+<script>
+  function showLang(lang) {
+    document.getElementById('es').classList.toggle('hide', lang !== 'es');
+    document.getElementById('en').classList.toggle('hide', lang !== 'en');
+    document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang;
+  }
+  (function(){
+    var l = (navigator.language || 'es').toLowerCase();
+    if (l.indexOf('en') === 0) showLang('en');
+  })();
+</script>
+</body>
+</html>
+
