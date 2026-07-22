@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nexus Billings — Facturas y cotizaciones en tu bolsillo</title>
+<meta name="description" content="Nexus Billings: app móvil todo-en-uno para negocios. Facturas profesionales, cotizaciones, clientes, cobros Stripe, respaldos cifrados en Google Drive y asistente Nexi con IA. Offline-first." />
+<meta name="theme-color" content="#0B0B14" />
+<meta property="og:title" content="Nexus Billings — Tu negocio en tu bolsillo" />
+<meta property="og:description" content="Facturas, IA y respaldos, en tu bolsillo. Offline-first y seguro." />
+<meta property="og:type" content="website" />
+<style>
+:root { --brand:#EA580C; --brand-2:#F97316; --brand-glow:rgba(234,88,12,0.35); --bg:#0B0B14; --bg-2:#14141F; --surface:rgba(255,255,255,0.04); --surface-2:rgba(255,255,255,0.06); --border:rgba(255,255,255,0.08); --text:#F4F4F5; --muted:#A1A1AA; --success:#22C55E; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+body::before { content:""; position:fixed; top:-200px; left:50%; width:800px; height:800px; background:radial-gradient(circle,var(--brand-glow) 0%,transparent 60%); transform:translateX(-50%); z-index:0; pointer-events:none; filter:blur(60px); }
+a { color:var(--brand-2); text-decoration:none; transition:opacity 0.2s; }
+a:hover { opacity:0.8; }
+.container { max-width:1140px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+.narrow { max-width:780px; }
+section { padding:80px 0; }
+@media (max-width:640px) { section { padding:56px 0; } }
+.nav { position:sticky; top:0; z-index:50; background:rgba(11,11,20,0.85); backdrop-filter:saturate(180%) blur(20px); -webkit-backdrop-filter:saturate(180%) blur(20px); border-bottom:1px solid var(--border); }
+.nav-inner { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:1140px; margin:0 auto; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px; color:var(--text); }
+.brand-mark { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:16px; box-shadow:0 4px 20px var(--brand-glow); }
+.nav-links { display:flex; gap:28px; align-items:center; }
+.nav-links a { color:var(--muted); font-size:15px; font-weight:500; }
+.nav-links a:hover { color:var(--text); opacity:1; }
+.nav-cta { padding:8px 18px !important; background:var(--brand); color:#fff !important; border-radius:999px; font-weight:600 !important; }
+@media (max-width:720px) { .nav-links { gap:16px; } .nav-links a:not(.nav-cta) { display:none; } }
+.hero { padding:100px 0 60px; text-align:center; }
+.hero .eyebrow { display:inline-block; padding:6px 14px; background:var(--surface); border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--muted); margin-bottom:24px; font-weight:500; }
+.hero .eyebrow strong { color:var(--brand-2); }
+.hero h1 { font-size:clamp(36px,6vw,64px); line-height:1.1; font-weight:800; margin-bottom:20px; letter-spacing:-0.02em; background:linear-gradient(180deg,#fff 0%,#A1A1AA 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.hero h1 .accent { background:linear-gradient(120deg,var(--brand) 0%,var(--brand-2) 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.hero p.lead { font-size:clamp(17px,2vw,21px); color:var(--muted); max-width:640px; margin:0 auto 40px; }
+.btn { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; border-radius:999px; font-weight:600; font-size:16px; border:1px solid transparent; cursor:pointer; transition:transform 0.15s; text-decoration:none; }
+.btn-primary { background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%); color:#fff !important; box-shadow:0 10px 30px var(--brand-glow); }
+.btn-primary:hover { transform:translateY(-2px); opacity:1 !important; }
+.btn-ghost { background:var(--surface); color:var(--text) !important; border-color:var(--border); }
+.btn-ghost:hover { background:var(--surface-2); opacity:1 !important; }
+.hero-cta { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:48px; }
+.phone-mockup { max-width:280px; margin:0 auto; aspect-ratio:9/19; background:linear-gradient(180deg,#1F1F2E 0%,#0B0B14 100%); border-radius:36px; padding:12px; box-shadow:0 20px 60px rgba(0,0,0,0.5); border:2px solid var(--border); position:relative; }
+.phone-mockup::before { content:""; position:absolute; top:6px; left:50%; transform:translateX(-50%); width:80px; height:6px; background:#000; border-radius:4px; z-index:2; }
+.phone-inner { width:100%; height:100%; background:linear-gradient(180deg,var(--brand) 0%,#000 40%); border-radius:24px; display:flex; align-items:center; justify-content:center; flex-direction:column; padding:60px 20px 20px; text-align:center; }
+.phone-inner .logo-big { width:80px; height:80px; border-radius:20px; background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%); display:flex; align-items:center; justify-content:center; font-size:36px; font-weight:900; color:#fff; margin-bottom:16px; box-shadow:0 10px 40px var(--brand-glow); }
+.phone-inner h3 { color:#fff; font-size:20px; margin-bottom:6px; }
+.phone-inner p { color:rgba(255,255,255,0.7); font-size:13px; }
+.section-head { text-align:center; max-width:720px; margin:0 auto 48px; }
+.section-head .eyebrow { color:var(--brand-2); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px; }
+.section-head h2 { font-size:clamp(28px,4vw,42px); font-weight:800; letter-spacing:-0.02em; margin-bottom:14px; }
+.section-head p { color:var(--muted); font-size:17px; }
+.feature-grid { display:grid; gap:24px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+.feature-card { background:var(--surface); border:1px solid var(--border); border-radius:24px; padding:28px; transition:transform 0.2s,border-color 0.2s; }
+.feature-card:hover { transform:translateY(-4px); border-color:rgba(234,88,12,0.3); }
+.feature-icon { width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg,rgba(234,88,12,0.15) 0%,rgba(249,115,22,0.1) 100%); border:1px solid rgba(234,88,12,0.3); display:flex; align-items:center; justify-content:center; font-size:24px; margin-bottom:20px; }
+.feature-card h3 { font-size:18px; font-weight:700; margin-bottom:8px; }
+.feature-card p { color:var(--muted); font-size:15px; }
+.badge { display:inline-block; padding:4px 12px; background:rgba(234,88,12,0.15); color:var(--brand-2); border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.05em; }
+.cta-banner { background:linear-gradient(135deg,rgba(234,88,12,0.15) 0%,rgba(249,115,22,0.05) 100%); border:1px solid rgba(234,88,12,0.3); border-radius:24px; padding:48px 32px; text-align:center; }
+.cta-banner h2 { font-size:clamp(24px,4vw,36px); font-weight:800; margin-bottom:12px; }
+.cta-banner p { color:var(--muted); margin-bottom:28px; font-size:17px; }
+footer { border-top:1px solid var(--border); padding:48px 0 32px; background:var(--bg-2); }
+.footer-grid { display:grid; gap:40px; grid-template-columns:2fr 1fr 1fr 1fr; margin-bottom:32px; }
+@media (max-width:720px) { .footer-grid { grid-template-columns:1fr 1fr; } }
+.footer-col h5 { font-size:13px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:16px; }
+.footer-col ul { list-style:none; }
+.footer-col li { margin-bottom:10px; }
+.footer-col a { color:var(--text); font-size:15px; opacity:0.75; }
+.footer-col a:hover { opacity:1; }
+.footer-tag { color:var(--muted); font-size:14px; max-width:320px; }
+.footer-bottom { border-top:1px solid var(--border); padding-top:24px; color:var(--muted); font-size:13px; text-align:center; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="./" class="brand"><span class="brand-mark">N</span><span>Nexus Billings</span></a>
+    <div class="nav-links">
+      <a href="#features">Funciones</a>
+      <a href="./support.html">Soporte</a>
+      <a href="./beta.html" class="nav-cta">Únete a la Beta</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow">🚀 <strong>Próximamente en Google Play</strong> · Beta abierta</span>
+    <h1>Tu negocio, en tu <span class="accent">bolsillo</span></h1>
+    <p class="lead">Nexus Billings es la app móvil todo-en-uno para negocios modernos. Crea facturas profesionales, envía cotizaciones, cobra con Stripe y respalda todo cifrado en Google Drive. Con IA integrada. Sin conexión. Sin complicaciones.</p>
+    <div class="hero-cta">
+      <a href="./beta.html" class="btn btn-primary">Únete a la Beta →</a>
+      <a href="#features" class="btn btn-ghost">Ver funciones</a>
+    </div>
+    <div class="phone-mockup">
+      <div class="phone-inner">
+        <div class="logo-big">N</div>
+        <h3>Nexus Billings</h3>
+        <p>Facturas · Clientes · IA · Cobros</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Funciones</div>
+      <h2>Todo lo que necesitas para facturar</h2>
+      <p>Diseñado para trabajadores independientes, contratistas y pequeñas empresas.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card"><div class="feature-icon">📄</div><h3>Facturas y cotizaciones</h3><p>Múltiples plantillas profesionales. Genera PDFs listos para enviar en segundos.</p></div>
+      <div class="feature-card"><div class="feature-icon">📶</div><h3>100% Offline-first</h3><p>Trabaja sin conexión desde el primer segundo. Todo guardado localmente cifrado.</p></div>
+      <div class="feature-card"><div class="feature-icon">🤖</div><h3>Nexi — IA <span class="badge">PRO</span></h3><p>Chat con OpenAI GPT-5.2 o Gemini 3 Flash. Redacta descripciones, analiza reportes.</p></div>
+      <div class="feature-card"><div class="feature-icon">💳</div><h3>Cobros con Stripe</h3><p>Links de pago instantáneos. Tarjeta, ACH y wallets soportados.</p></div>
+      <div class="feature-card"><div class="feature-icon">☁️</div><h3>Google Drive Backup <span class="badge">PRO</span></h3><p>Copias cifradas AES-256+HMAC. Solo tú puedes leerlas.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔒</div><h3>PIN + biometría</h3><p>Acceso protegido con PIN y desbloqueo por huella / Face ID.</p></div>
+      <div class="feature-card"><div class="feature-icon">👥</div><h3>Gestión de clientes</h3><p>Directorio inteligente con historial de facturas y alertas de mora.</p></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><h3>Reportes</h3><p>Ingresos por mes, top clientes, facturas vencidas. Todo en un tap.</p></div>
+      <div class="feature-card"><div class="feature-icon">🌗</div><h3>Modo oscuro nativo</h3><p>Interfaz cuidada en tema claro y oscuro. Se adapta a tu sistema.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container narrow">
+    <div class="cta-banner">
+      <span class="badge">Beta abierta</span>
+      <h2 style="margin-top:16px;">¿Quieres probarla antes que nadie?</h2>
+      <p>Únete al programa de pruebas cerradas. Gratis, sin permanencia.</p>
+      <a href="./beta.html" class="btn btn-primary">Únete a la Beta →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="brand" style="margin-bottom:16px;"><span class="brand-mark">N</span><span>Nexus Billings</span></div>
+        <p class="footer-tag">La app móvil todo-en-uno para pequeños negocios modernos.</p>
+      </div>
+      <div class="footer-col"><h5>Producto</h5><ul><li><a href="#features">Funciones</a></li><li><a href="./beta.html">Beta program</a></li></ul></div>
+      <div class="footer-col"><h5>Soporte</h5><ul><li><a href="./support.html">Centro de ayuda</a></li><li><a href="mailto:Nexuslabsappinvoice@gmail.com">Contacto</a></li><li><a href="./delete-account.html">Eliminar cuenta</a></li></ul></div>
+      <div class="footer-col"><h5>Legal</h5><ul><li><a href="./privacy.html">Privacidad</a></li><li><a href="./terms.html">Términos</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">© 2026 Nexus Labs · Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+</body>
+</html>
+
