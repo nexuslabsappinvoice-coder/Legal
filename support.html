@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Centro de Soporte · Nexus Billings</title>
+<meta name="description" content="Preguntas frecuentes, guías y contacto para usuarios de Nexus Billings." />
+<meta name="theme-color" content="#0B0B14" />
+<style>
+:root { --brand:#EA580C; --brand-2:#F97316; --brand-glow:rgba(234,88,12,0.35); --bg:#0B0B14; --bg-2:#14141F; --surface:rgba(255,255,255,0.04); --surface-2:rgba(255,255,255,0.06); --border:rgba(255,255,255,0.08); --text:#F4F4F5; --muted:#A1A1AA; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden; }
+body::before { content:""; position:fixed; top:-200px; left:50%; width:800px; height:800px; background:radial-gradient(circle,var(--brand-glow) 0%,transparent 60%); transform:translateX(-50%); z-index:0; pointer-events:none; filter:blur(60px); }
+a { color:var(--brand-2); text-decoration:none; }
+.container { max-width:1140px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+.narrow { max-width:780px; }
+section { padding:60px 0; }
+.nav { position:sticky; top:0; z-index:50; background:rgba(11,11,20,0.85); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+.nav-inner { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:1140px; margin:0 auto; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px; color:var(--text); }
+.brand-mark { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; box-shadow:0 4px 20px var(--brand-glow); }
+.nav-cta { padding:8px 18px; background:var(--brand); color:#fff !important; border-radius:999px; font-weight:600; }
+.hero { padding:80px 0 40px; text-align:center; }
+.eyebrow { display:inline-block; padding:6px 14px; background:var(--surface); border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--muted); margin-bottom:24px; font-weight:500; }
+.eyebrow strong { color:var(--brand-2); }
+h1 { font-size:clamp(36px,6vw,56px); line-height:1.1; font-weight:800; margin-bottom:20px; letter-spacing:-0.02em; background:linear-gradient(180deg,#fff 0%,#A1A1AA 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+h1 .accent { background:linear-gradient(120deg,var(--brand) 0%,var(--brand-2) 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.lead { font-size:clamp(17px,2vw,20px); color:var(--muted); max-width:640px; margin:0 auto 40px; }
+.section-head { text-align:center; max-width:720px; margin:0 auto 48px; }
+.section-head .h2-eyebrow { color:var(--brand-2); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px; }
+h2 { font-size:clamp(28px,4vw,38px); font-weight:800; letter-spacing:-0.02em; margin-bottom:14px; }
+h3.category { font-size:20px; margin-bottom:20px; color:var(--brand-2); margin-top:32px; }
+.section-head p { color:var(--muted); font-size:17px; }
+.feature-grid { display:grid; gap:24px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+.feature-card { background:var(--surface); border:1px solid var(--border); border-radius:24px; padding:28px; }
+.feature-icon { width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg,rgba(234,88,12,0.15) 0%,rgba(249,115,22,0.1) 100%); border:1px solid rgba(234,88,12,0.3); display:flex; align-items:center; justify-content:center; font-size:24px; margin-bottom:20px; }
+.feature-card h3 { font-size:18px; font-weight:700; margin-bottom:8px; }
+.feature-card p { color:var(--muted); font-size:15px; margin-bottom:12px; }
+.btn { display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:999px; font-weight:600; font-size:14px; text-decoration:none; background:var(--surface); color:var(--text); border:1px solid var(--border); }
+.btn-primary { background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%); color:#fff !important; border:none; padding:14px 28px; font-size:16px; box-shadow:0 10px 30px var(--brand-glow); }
+.badge { display:inline-block; padding:4px 12px; background:rgba(234,88,12,0.15); color:var(--brand-2); border-radius:999px; font-size:11px; font-weight:700; letter-spacing:0.05em; margin-left:6px; }
+.faq { display:grid; gap:12px; }
+.faq-item { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px 24px; }
+.faq-item summary { font-weight:600; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; font-size:16px; gap:12px; }
+.faq-item summary::after { content:"+"; font-size:24px; color:var(--brand-2); font-weight:400; flex-shrink:0; }
+.faq-item[open] summary::after { content:"−"; }
+.faq-item p { color:var(--muted); margin-top:12px; font-size:15px; line-height:1.7; }
+.cta-banner { background:linear-gradient(135deg,rgba(234,88,12,0.15) 0%,rgba(249,115,22,0.05) 100%); border:1px solid rgba(234,88,12,0.3); border-radius:24px; padding:48px 32px; text-align:center; }
+.cta-banner h2 { font-size:clamp(24px,4vw,32px); margin-bottom:12px; }
+.cta-banner p { color:var(--muted); margin-bottom:28px; font-size:17px; }
+footer { border-top:1px solid var(--border); padding:48px 0 32px; background:var(--bg-2); }
+.footer-grid { display:grid; gap:40px; grid-template-columns:2fr 1fr 1fr 1fr; margin-bottom:32px; }
+@media (max-width:720px) { .footer-grid { grid-template-columns:1fr 1fr; } }
+.footer-col h5 { font-size:13px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:16px; }
+.footer-col ul { list-style:none; }
+.footer-col li { margin-bottom:10px; }
+.footer-col a { color:var(--text); font-size:15px; opacity:0.75; }
+.footer-tag { color:var(--muted); font-size:14px; max-width:320px; }
+.footer-bottom { border-top:1px solid var(--border); padding-top:24px; color:var(--muted); font-size:13px; text-align:center; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="./" class="brand"><span class="brand-mark">N</span><span>Nexus Billings</span></a>
+    <a href="./" class="nav-cta">← Inicio</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container narrow">
+    <span class="eyebrow">🛟 <strong>Estamos aquí para ayudarte</strong></span>
+    <h1>Centro de <span class="accent">Soporte</span></h1>
+    <p class="lead">Guías rápidas, respuestas a preguntas frecuentes y contacto directo con el equipo de Nexus Billings.</p>
+    <a href="mailto:Nexuslabsappinvoice@gmail.com" class="btn btn-primary">✉️ Escríbenos</a>
+  </div>
+</section>
+
+<section style="padding-top:20px;">
+  <div class="container narrow">
+    <div class="section-head">
+      <div class="h2-eyebrow">Contacto</div>
+      <h2>¿No encuentras la respuesta?</h2>
+      <p>Respondemos todos los correos en menos de 48h hábiles.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">✉️</div>
+        <h3>Email de soporte</h3>
+        <p>La forma más rápida de llegar a nosotros.</p>
+        <a href="mailto:Nexuslabsappinvoice@gmail.com" class="btn">Nexuslabsappinvoice@gmail.com</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🐛</div>
+        <h3>Reportar un bug</h3>
+        <p>¿Encontraste algo que no funciona? Cuéntanos con detalle.</p>
+        <a href="mailto:Nexuslabsappinvoice@gmail.com?subject=Bug%20report&body=Descripci%C3%B3n%3A%0A%0ATel%C3%A9fono%3A%20%0AVersi%C3%B3n%20app%3A%20" class="btn">Enviar reporte →</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💡</div>
+        <h3>Sugerencia</h3>
+        <p>¿Te falta una función? Escuchamos a nuestra comunidad.</p>
+        <a href="mailto:Nexuslabsappinvoice@gmail.com?subject=Sugerencia" class="btn">Compartir idea →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container narrow">
+    <div class="section-head">
+      <div class="h2-eyebrow">FAQ</div>
+      <h2>Preguntas frecuentes</h2>
+    </div>
+
+    <h3 class="category">🚀 Empezar</h3>
+    <div class="faq">
+      <details class="faq-item"><summary>¿Necesito una cuenta?</summary><p>No hay cuenta en servidores externos. Solo un PIN de 4-8 dígitos que configuras la primera vez. Tus datos viven en tu teléfono, cifrados.</p></details>
+      <details class="faq-item"><summary>¿Qué pasa si olvido mi PIN?</summary><p>Durante la configuración eliges una pregunta de seguridad. Si olvidas el PIN, responde correctamente y podrás definir uno nuevo.</p></details>
+      <details class="faq-item"><summary>¿Cómo activo huella / Face ID?</summary><p>Ve a Ajustes → Seguridad → Desbloqueo biométrico. Necesitas tener huella/rostro registrado en tu Android.</p></details>
+      <details class="faq-item"><summary>¿Funciona sin internet?</summary><p>Sí, todas las funciones core (facturas, cotizaciones, clientes, PDFs) funcionan 100% offline.</p></details>
+    </div>
+
+    <h3 class="category">📄 Facturas y cotizaciones</h3>
+    <div class="faq">
+      <details class="faq-item"><summary>¿Cuántas plantillas hay?</summary><p>4 plantillas profesionales: Standard, Rental, Compact y Modern. Puedes personalizar color y logo desde Ajustes.</p></details>
+      <details class="faq-item"><summary>¿Puedo enviar por WhatsApp/email?</summary><p>Sí. Al finalizar una factura tienes botones para compartir por WhatsApp, email, imprimir directo o copiar link de pago.</p></details>
+      <details class="faq-item"><summary>¿Puedo convertir cotización en factura?</summary><p>Sí. Desde la cotización toca "Convertir a Factura". Todos los datos se copian automáticamente.</p></details>
+      <details class="faq-item"><summary>¿Cómo cobro impuestos?</summary><p>En Ajustes → Impuestos configura las tasas que uses (IVA, ISR, sales tax). Aparecerán como opciones al crear factura.</p></details>
+    </div>
+
+    <h3 class="category">☁️ Backups y Google Drive</h3>
+    <div class="faq">
+      <details class="faq-item"><summary>¿Cómo activo backup automático? <span class="badge">PRO</span></summary><p>Ve a Ajustes → Copias de seguridad → Conectar Google Drive. Da permiso <em>drive.file</em> (solo lee/escribe archivos que la app crea, no todo tu Drive).</p></details>
+      <details class="faq-item"><summary>¿Qué es la contraseña de cifrado?</summary><p>Es una clave separada del PIN que cifra el backup ANTES de subirlo. Ni Google ni nosotros podemos verlo. Mínimo 12 caracteres. Guárdala en un lugar seguro: si la pierdes el backup es irrecuperable.</p></details>
+      <details class="faq-item"><summary>¿Cada cuánto se hace backup?</summary><p>Por defecto cada 24h. Puedes cambiarlo a 1h, 6h, 12h, 24h o desactivarlo.</p></details>
+      <details class="faq-item"><summary>¿Cómo restauro en otro teléfono?</summary><p>Instala Nexus Billings. En la pantalla de configuración toca "Restaurar copia de seguridad". Inicia sesión con Drive, elige el backup y escribe la contraseña de cifrado.</p></details>
+    </div>
+
+    <h3 class="category">🤖 Nexi (IA)</h3>
+    <div class="faq">
+      <details class="faq-item"><summary>¿Qué puede hacer Nexi? <span class="badge">PRO</span></summary><p>Nexi es un asistente con IA. Puede: redactar descripciones, analizar reportes, sugerir mensajes de cobro, resumir tu semana. Elige entre OpenAI GPT-5.2 y Gemini 3 Flash en Ajustes.</p></details>
+      <details class="faq-item"><summary>¿Nexi ve mis datos?</summary><p>Nexi solo ve lo que TÚ le mandas en el chat. No tiene acceso a tu BD completa. Los mensajes se procesan y descartan.</p></details>
+    </div>
+
+    <h3 class="category">💳 Cobros Stripe</h3>
+    <div class="faq">
+      <details class="faq-item"><summary>¿Necesito cuenta Stripe?</summary><p>Sí, es gratis abrirla en <a href="https://stripe.com" target="_blank">stripe.com</a>. En Ajustes → Cobros pega tu clave secreta. Comisiones ~2.9% + $0.30 USD por transacción.</p></details>
+      <details class="faq-item"><summary>¿En qué países funciona?</summary><p>Stripe funciona en 40+ países. Verifica en <a href="https://stripe.com/global" target="_blank">stripe.com/global</a>. LATAM: México, Brasil y varios más.</p></details>
+    </div>
+
+    <h3 class="category">🔒 Seguridad</h3>
+    <div class="faq">
+      <details class="faq-item"><summary>¿Cómo elimino mi cuenta?</summary><p>Ve a Ajustes → Cuenta → Eliminar cuenta, o sigue las instrucciones en <a href="./delete-account.html">delete-account</a>. Se borra todo local + backups en Drive. Instantáneo e irreversible.</p></details>
+      <details class="faq-item"><summary>¿Los datos salen de mi teléfono?</summary><p>Los datos de facturas/clientes NO salen a menos que actives Drive Backup (aún así, cifrados). Sí van a servidores: crash reports anónimos (Sentry) y mensajes a Nexi (procesados por el modelo y descartados).</p></details>
+      <details class="faq-item"><summary>¿Qué cifrado usan?</summary><p>AES-256-CBC + HMAC-SHA256 (Encrypt-then-MAC), 200,000 iteraciones PBKDF2. Backup en Drive es E2E cifrado.</p></details>
+    </div>
+
+    <h3 class="category">💰 Planes y precios</h3>
+    <div class="faq">
+      <details class="faq-item"><summary>¿Es gratis?</summary><p>Sí, plan Free incluye facturas ilimitadas, cotizaciones, clientes, plantillas y PDFs — sin ads. Plan PRO añade Google Drive Backup y Nexi AI (por suscripción).</p></details>
+      <details class="faq-item"><summary>¿Cómo cancelo PRO?</summary><p>Desde Ajustes → Suscripción, o directamente desde Google Play Store → Menú → Pagos y suscripciones → Nexus Billings PRO → Cancelar. Puedes cancelar en cualquier momento; tus datos NO se borran.</p></details>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container narrow">
+    <div class="cta-banner">
+      <h2>¿Aún tienes preguntas?</h2>
+      <p>Nuestro equipo responde emails en menos de 48h. Te contestamos personalmente, no bots.</p>
+      <a href="mailto:Nexuslabsappinvoice@gmail.com" class="btn btn-primary">Escríbenos ahora →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="brand" style="margin-bottom:16px;"><span class="brand-mark">N</span><span>Nexus Billings</span></div>
+        <p class="footer-tag">La app móvil todo-en-uno para pequeños negocios modernos.</p>
+      </div>
+      <div class="footer-col"><h5>Producto</h5><ul><li><a href="./#features">Funciones</a></li><li><a href="./beta.html">Beta program</a></li></ul></div>
+      <div class="footer-col"><h5>Soporte</h5><ul><li><a href="./support.html">Centro de ayuda</a></li><li><a href="mailto:Nexuslabsappinvoice@gmail.com">Contacto</a></li><li><a href="./delete-account.html">Eliminar cuenta</a></li></ul></div>
+      <div class="footer-col"><h5>Legal</h5><ul><li><a href="./privacy.html">Privacidad</a></li><li><a href="./terms.html">Términos</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">© 2026 Nexus Labs · Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+</body>
+</html>
+
