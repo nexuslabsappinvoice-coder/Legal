@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Eliminar cuenta y datos · Nexus Billings</title>
+<meta name="description" content="Cómo eliminar tu cuenta y todos tus datos en Nexus Billings." />
+<meta name="theme-color" content="#0B0B14" />
+<style>
+:root { --brand:#EA580C; --brand-2:#F97316; --brand-glow:rgba(234,88,12,0.35); --bg:#0B0B14; --bg-2:#14141F; --surface:rgba(255,255,255,0.04); --border:rgba(255,255,255,0.08); --text:#F4F4F5; --muted:#A1A1AA; --danger:#EF4444; --danger-bg:rgba(239,68,68,0.1); }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+body::before { content:""; position:fixed; top:-200px; left:50%; width:800px; height:800px; background:radial-gradient(circle,var(--brand-glow) 0%,transparent 60%); transform:translateX(-50%); z-index:0; pointer-events:none; filter:blur(60px); }
+a { color:var(--brand-2); text-decoration:none; }
+.container { max-width:800px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+.nav { position:sticky; top:0; z-index:50; background:rgba(11,11,20,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+.nav-inner { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:1140px; margin:0 auto; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px; color:var(--text); }
+.brand-mark { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; box-shadow:0 4px 20px var(--brand-glow); }
+.nav-cta { padding:8px 18px; background:var(--brand); color:#fff !important; border-radius:999px; font-weight:600; }
+main { padding:60px 0; }
+h1 { font-size:clamp(30px,5vw,42px); font-weight:800; letter-spacing:-0.02em; margin-bottom:12px; }
+.eyebrow { display:inline-block; padding:6px 14px; background:var(--danger-bg); border:1px solid rgba(239,68,68,0.3); border-radius:999px; font-size:13px; color:var(--danger); margin-bottom:20px; font-weight:600; }
+.lead { font-size:17px; color:var(--muted); margin-bottom:32px; }
+h2 { font-size:22px; font-weight:700; margin:32px 0 12px; color:var(--text); }
+h3 { font-size:17px; font-weight:700; margin:20px 0 8px; color:var(--brand-2); }
+p, li { font-size:15px; color:var(--muted); margin-bottom:12px; }
+ol, ul { margin:12px 0 20px 24px; }
+li { margin-bottom:8px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px; margin:24px 0; }
+.card.danger { background:var(--danger-bg); border-color:rgba(239,68,68,0.3); }
+.card.danger strong { color:var(--danger); }
+code { background:var(--surface); padding:2px 8px; border-radius:6px; font-size:14px; color:var(--brand-2); }
+.updated { color:var(--muted); font-size:13px; margin-top:40px; padding-top:20px; border-top:1px solid var(--border); }
+footer { border-top:1px solid var(--border); padding:32px 0; background:var(--bg-2); text-align:center; color:var(--muted); font-size:13px; margin-top:60px; }
+footer a { margin:0 8px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="./" class="brand"><span class="brand-mark">N</span><span>Nexus Billings</span></a>
+    <a href="./" class="nav-cta">← Inicio</a>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <span class="eyebrow">🗑️ Eliminación de cuenta</span>
+    <h1>Eliminar tu cuenta y datos</h1>
+    <p class="lead">Puedes eliminar tu cuenta y TODOS tus datos de Nexus Billings en cualquier momento, sin fricción y sin necesidad de contactarnos. Esta página explica cómo hacerlo.</p>
+
+    <div class="card danger">
+      <strong>⚠️ Importante:</strong>
+      <p style="margin-top:8px; color:var(--text);">La eliminación es <strong>inmediata e irreversible</strong>. Todos tus datos locales (facturas, cotizaciones, clientes) y las copias de seguridad en Google Drive se borrarán definitivamente.</p>
+    </div>
+
+    <h2>Método 1 — Desde la app (recomendado)</h2>
+    <ol>
+      <li>Abre la app Nexus Billings en tu teléfono.</li>
+      <li>Ingresa tu PIN o desbloquea con biometría.</li>
+      <li>Ve a la pestaña <strong>Ajustes</strong> (icono de engranaje).</li>
+      <li>Baja hasta la sección <strong>Cuenta</strong>.</li>
+      <li>Toca <strong>"Eliminar cuenta y datos"</strong>.</li>
+      <li>Confirma tu decisión. Ingresa tu PIN una vez más como verificación.</li>
+      <li>La app borrará todo localmente y también eliminará las copias de seguridad de tu Google Drive (si conectaste Drive).</li>
+    </ol>
+
+    <h2>Método 2 — Sin acceso a la app</h2>
+    <p>Si perdiste tu teléfono, cambiaste de dispositivo o no puedes desinstalar la app, escríbenos a <a href="mailto:Nexuslabsappinvoice@gmail.com?subject=Eliminaci%C3%B3n%20de%20cuenta%20Nexus%20Billings">Nexuslabsappinvoice@gmail.com</a> con el asunto <code>Eliminación de cuenta Nexus Billings</code>, incluyendo:</p>
+    <ul>
+      <li>La dirección de email de la cuenta de Google Drive vinculada (si conectaste Drive).</li>
+      <li>La fecha aproximada en que instalaste la app.</li>
+      <li>Confirmación explícita de que deseas eliminar todos los datos.</li>
+    </ul>
+    <p>Procesaremos tu solicitud en un plazo máximo de <strong>7 días hábiles</strong> y te confirmaremos la eliminación por correo.</p>
+
+    <h2>¿Qué datos se eliminan?</h2>
+    <div class="card">
+      <h3>✅ Datos que se eliminan inmediatamente</h3>
+      <ul>
+        <li>Todas las facturas, cotizaciones, plantillas y clientes almacenados localmente en tu teléfono.</li>
+        <li>Tu PIN y pregunta de seguridad.</li>
+        <li>La contraseña de cifrado de tus backups (SecureStore/Keychain).</li>
+        <li>Todos los archivos de backup (<code>.nbenc</code>) en tu Google Drive vinculados a la app.</li>
+        <li>Preferencias de configuración (idioma, tema, motor de IA).</li>
+        <li>Historial de conversación con Nexi (asistente IA).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>ℹ️ Datos que pueden persistir (agregados, anónimos)</h3>
+      <ul>
+        <li><strong>Crash reports</strong> (Sentry) — reportes técnicos anónimos, sin datos personales identificables. Se retienen máximo 90 días.</li>
+        <li><strong>Logs del servidor</strong> — timestamps y códigos de error, sin contenido personal. Retenidos máximo 30 días.</li>
+      </ul>
+      <p style="margin-top:12px;">Ninguno de estos datos permite reconstruir tu contenido personal, facturas o información de clientes.</p>
+    </div>
+
+    <h2>¿Cambiar de opinión?</h2>
+    <p>Antes de eliminar tu cuenta puedes:</p>
+    <ul>
+      <li><strong>Exportar tus datos</strong>: en Ajustes → Copias de seguridad → "Exportar backup manual". Recibes un archivo <code>.nbenc</code> cifrado que puedes restaurar más tarde en otro teléfono.</li>
+      <li><strong>Simplemente desinstalar la app</strong>: tus datos locales se van con la app, pero los backups en tu Drive permanecen (puedes borrarlos manualmente si quieres).</li>
+    </ul>
+
+    <h2>Contacto</h2>
+    <p>¿Alguna duda sobre este proceso? Escríbenos a <a href="mailto:Nexuslabsappinvoice@gmail.com">Nexuslabsappinvoice@gmail.com</a>. Respondemos en menos de 48h hábiles.</p>
+
+    <p class="updated">Última actualización: Julio 2026 · Nexus Labs</p>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <a href="./">Inicio</a> · <a href="./privacy.html">Privacidad</a> · <a href="./terms.html">Términos</a> · <a href="./support.html">Soporte</a>
+    <p style="margin-top:12px;">© 2026 Nexus Labs</p>
+  </div>
+</footer>
+
+</body>
+</html>
