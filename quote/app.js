@@ -1,9 +1,18 @@
 /* Nexus Billings — Public Quote Viewer (client-only)
- * ---------------------------------------------------
+ * ═══════════════════════════════════════════════════════
  * Reads a compressed payload from the URL fragment (`#data=…`),
- * decompresses it via lz-string, then renders the quote 100% in
+ * decompresses it via lz-string, then renders the quote 100 % in
  * the browser. No backend calls; the page is a plain static asset
  * hosted on GitHub Pages.
+ *
+ * Response mechanism (Accept / Decline):
+ *   The Accept and Decline buttons open a bottom-sheet with three
+ *   channels — WhatsApp, SMS and Copy-to-clipboard. Each generates a
+ *   pre-filled message that contains:
+ *     1) A human-readable line ("✅ ACEPTO cotización EST-123…")
+ *     2) A deep link back to the Nexus Billings app of the sender
+ *        (`nexusbillings://quote-response?…`) so tapping it opens
+ *        the app and auto-updates the estimate status.
  */
 (function () {
   "use strict";
@@ -11,7 +20,6 @@
   // ─── i18n (ES / EN) ────────────────────────────────────
   const STRINGS = {
     es: {
-      title: "Cotización",
       docStatusDraft: "Borrador",
       docStatusSent: "Enviada",
       docStatusAccepted: "Aceptada",
@@ -22,29 +30,34 @@
       address: "Dirección",
       phone: "Teléfono",
       email: "Email",
-      detail: "Detalle",
-      colDesc: "Descripción",
-      colQty: "Cant.",
-      colPrice: "Precio",
-      colTotal: "Total",
-      subtotal: "Subtotal",
-      discount: "Descuento",
-      tax: "Impuesto",
-      total: "Total",
+      colDesc: "Descripción", colQty: "Cant.", colPrice: "Precio", colTotal: "Total",
+      subtotal: "Subtotal", discount: "Descuento", tax: "Impuesto", total: "Total",
       validUntil: "Válida hasta",
-      notesTitle: "Notas y términos",
-      payTitle: "Métodos de pago",
-      approveBtn: "Aprobar y confirmar por WhatsApp",
-      pdfBtn: "Descargar PDF",
+      notesTitle: "Notas y términos", payTitle: "Métodos de pago",
+      pdfBtn: "PDF",
+      acceptBtn: "Aceptar", declineBtn: "Declinar",
+      modalTitleAccept: "Confirmar aceptación",
+      modalTitleDecline: "Rechazar cotización",
+      modalSubAccept: "Envía tu confirmación al remitente. Elige el canal:",
+      modalSubDecline: "Puedes añadir un motivo (opcional) y elegir el canal:",
+      reasonLabel: "Motivo (opcional)",
+      reasonPlaceholder: "Ej: Precio fuera de presupuesto",
+      cancel: "Cancelar",
+      channelWa: "WhatsApp", channelWaSub: "Enviar por WhatsApp",
+      channelSms: "SMS", channelSmsSub: "Enviar por mensaje",
+      channelCopy: "Copiar mensaje", channelCopySub: "Al portapapeles",
+      channelUnavailable: "El remitente no configuró este canal en su app.",
+      copied: "Mensaje copiado ✓",
+      acceptText: "✅ ACEPTO la cotización {NUM} por {TOTAL}.",
+      declineText: "❌ RECHAZO la cotización {NUM} por {TOTAL}.",
+      reasonPrefix: "Motivo:",
+      appLinkNote: "▶ Actualizar en la app:",
       errorTitle: "Enlace no válido",
       errorMsg: "Este enlace parece incompleto o dañado. Solicita al remitente que te envíe una copia actualizada.",
-      approvalText: "Hola, acepto el presupuesto #{NUM} por {TOTAL}",
-      noWhatsappSet: "El remitente no configuró un número de WhatsApp. Copia el enlace y contáctalo por otro medio.",
+      pdfError: "No pudimos generar el PDF. Intenta nuevamente.",
       quotePrefix: "Cotización",
-      invalid: "No válido",
     },
     en: {
-      title: "Estimate",
       docStatusDraft: "Draft",
       docStatusSent: "Sent",
       docStatusAccepted: "Accepted",
@@ -55,70 +68,66 @@
       address: "Address",
       phone: "Phone",
       email: "Email",
-      detail: "Details",
-      colDesc: "Description",
-      colQty: "Qty",
-      colPrice: "Price",
-      colTotal: "Total",
-      subtotal: "Subtotal",
-      discount: "Discount",
-      tax: "Tax",
-      total: "Total",
+      colDesc: "Description", colQty: "Qty", colPrice: "Price", colTotal: "Total",
+      subtotal: "Subtotal", discount: "Discount", tax: "Tax", total: "Total",
       validUntil: "Valid until",
-      notesTitle: "Notes & terms",
-      payTitle: "Payment methods",
-      approveBtn: "Approve & confirm via WhatsApp",
-      pdfBtn: "Download PDF",
+      notesTitle: "Notes & terms", payTitle: "Payment methods",
+      pdfBtn: "PDF",
+      acceptBtn: "Accept", declineBtn: "Decline",
+      modalTitleAccept: "Confirm acceptance",
+      modalTitleDecline: "Decline estimate",
+      modalSubAccept: "Send your confirmation to the sender. Choose a channel:",
+      modalSubDecline: "You may add a reason (optional) and choose a channel:",
+      reasonLabel: "Reason (optional)",
+      reasonPlaceholder: "e.g. Out of budget",
+      cancel: "Cancel",
+      channelWa: "WhatsApp", channelWaSub: "Send via WhatsApp",
+      channelSms: "SMS", channelSmsSub: "Send via message",
+      channelCopy: "Copy message", channelCopySub: "To clipboard",
+      channelUnavailable: "The sender didn't set up this channel in their app.",
+      copied: "Message copied ✓",
+      acceptText: "✅ I ACCEPT estimate {NUM} for {TOTAL}.",
+      declineText: "❌ I DECLINE estimate {NUM} for {TOTAL}.",
+      reasonPrefix: "Reason:",
+      appLinkNote: "▶ Update in the app:",
       errorTitle: "Invalid link",
       errorMsg: "This link seems incomplete or corrupted. Please ask the sender for an updated copy.",
-      approvalText: "Hi, I accept estimate #{NUM} for {TOTAL}",
-      noWhatsappSet: "The sender didn't configure a WhatsApp number. Copy the link and reach out another way.",
+      pdfError: "Couldn't generate PDF. Please try again.",
       quotePrefix: "Estimate",
-      invalid: "Invalid",
     },
   };
 
-  let T = STRINGS.es; // will be swapped based on payload
+  let T = STRINGS.es;
+  let currentPayload = null;
+  let currentAction = "accepted";
 
-  // ─── DOM helpers ───────────────────────────────────────
   const $ = (id) => document.getElementById(id);
-  const show = (id) => $(id).classList.remove("hidden");
-  const hide = (id) => $(id).classList.add("hidden");
+  const show = (id) => $(id) && $(id).classList.remove("hidden");
+  const hide = (id) => $(id) && $(id).classList.add("hidden");
   const setText = (id, value) => { const el = $(id); if (el) el.textContent = value == null ? "" : String(value); };
   const setHTML = (id, value) => { const el = $(id); if (el) el.innerHTML = value == null ? "" : String(value); };
 
-  // ─── Formatting ────────────────────────────────────────
   function money(amount, currency) {
     const n = Number(amount || 0);
     const cur = (currency || "USD").toUpperCase();
     try {
       return new Intl.NumberFormat(T === STRINGS.es ? "es-US" : "en-US", {
-        style: "currency",
-        currency: cur,
-        maximumFractionDigits: 2,
+        style: "currency", currency: cur, maximumFractionDigits: 2,
       }).format(n);
-    } catch (_e) {
-      return `$${n.toFixed(2)}`;
-    }
+    } catch (_e) { return `$${n.toFixed(2)}`; }
   }
-
-  function formatQty(q, kind, itemType) {
+  function formatQty(q, kind) {
     const n = Number(q || 0);
     if (kind === "retail") return String(Math.round(n));
-    // Show as integer when it's clean, otherwise 2 decimals
     return n % 1 === 0 ? String(n) : n.toFixed(2);
   }
-
   function escapeHtml(str) {
     return String(str == null ? "" : str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
   }
 
-  // ─── Payload decode ────────────────────────────────────
   function readPayload() {
     const hash = window.location.hash || "";
     const m = hash.match(/#(?:.*&)?data=([^&]+)/);
@@ -135,39 +144,49 @@
     }
   }
 
-  // ─── Render ────────────────────────────────────────────
   function renderStatusChip(status) {
     const key = "docStatus" + (String(status || "draft").charAt(0).toUpperCase() + String(status || "draft").slice(1));
     return T[key] || T.docStatusDraft;
   }
 
+  function renderClient(cl) {
+    const rows = [];
+    if (cl?.name) rows.push([T.name, cl.name]);
+    const addrParts = [cl?.address, [cl?.city, cl?.state, cl?.zip].filter(Boolean).join(", ")].filter(Boolean);
+    const address = addrParts.join(" · ");
+    if (address) rows.push([T.address, address]);
+    if (cl?.phone) rows.push([T.phone, cl.phone]);
+    if (cl?.email) rows.push([T.email, cl.email]);
+
+    if (rows.length === 0) { hide("client-card"); return; }
+    show("client-card");
+    $("client-kv").innerHTML = rows.map(([k, v]) =>
+      `<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd>`
+    ).join("");
+  }
+
   function render(p) {
-    // Language
+    currentPayload = p;
     T = p.lang === "en" ? STRINGS.en : STRINGS.es;
     document.documentElement.lang = p.lang === "en" ? "en" : "es";
 
-    // Business branding
     if (p.biz) {
       setText("biz-name", p.biz.name || "Nexus Billings");
       setText("biz-tagline", p.biz.tagline || "");
       setText("biz-footer-name", p.biz.name || "Nexus Billings");
-      const contactParts = [p.biz.phone, p.biz.email].filter(Boolean).join("  ·  ");
-      setText("biz-footer-contact", contactParts);
+      setText("biz-footer-contact", [p.biz.phone, p.biz.email].filter(Boolean).join("  ·  "));
       if (p.biz.logo) {
         const img = $("biz-logo");
         img.src = p.biz.logo;
         img.classList.remove("hidden");
         img.alt = p.biz.name || "";
       }
-      // Apply brand colour override
       if (p.biz.brand && typeof p.biz.brand === "string" && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(p.biz.brand)) {
         document.documentElement.style.setProperty("--brand", p.biz.brand);
-        // Compute a lighter shade for --brand-2 (fallback: same)
         document.documentElement.style.setProperty("--brand-2", p.biz.brand);
       }
     }
 
-    // Doc header
     const doc = p.doc || {};
     setText("doc-number", doc.number || "—");
     setText("doc-date", doc.date || "");
@@ -177,25 +196,13 @@
       setText("doc-valid-date", doc.valid_until);
     }
 
-    // Update <title>
-    const num = doc.number || "";
-    document.title = `${T.quotePrefix} ${num} — ${p.biz?.name || "Nexus Billings"}`;
+    document.title = `${T.quotePrefix} ${doc.number || ""} — ${p.biz?.name || "Nexus Billings"}`;
 
-    // Update section labels (i18n)
-    setText("sum-tax-label", T.tax);
+    renderClient(p.client || {});
 
-    // Client
-    const cl = p.client || {};
-    setText("cl-name", cl.name || "—");
-    const addrParts = [cl.address, [cl.city, cl.state, cl.zip].filter(Boolean).join(", ")].filter(Boolean);
-    setText("cl-address", addrParts.join(" · ") || "—");
-    setText("cl-phone", cl.phone || "—");
-    setText("cl-email", cl.email || "—");
-
-    // Items
     const items = Array.isArray(p.items) ? p.items : [];
     const rows = items.map((it) => {
-      const qtyLabel = formatQty(it.q, doc.kind, it.type);
+      const qtyLabel = formatQty(it.q, doc.kind);
       const typeTag = it.type ? `<div class="item-desc-sub">${escapeHtml(it.type)}</div>` : "";
       return `
         <tr>
@@ -210,7 +217,6 @@
     }).join("");
     setHTML("items-body", rows || `<tr><td colspan="4" style="color:var(--muted);text-align:center;padding:20px">—</td></tr>`);
 
-    // Totals
     const tot = p.totals || {};
     setText("sum-sub", money(tot.subtotal, tot.currency));
     if (Number(tot.discount || 0) > 0) {
@@ -222,6 +228,8 @@
       if (pct > 0) {
         const pctLabel = pct % 1 === 0 ? pct.toFixed(0) : pct.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
         setText("sum-tax-label", `${T.tax} (${pctLabel}%)`);
+      } else {
+        setText("sum-tax-label", T.tax);
       }
       setText("sum-tax", money(tot.tax, tot.currency));
     } else {
@@ -230,20 +238,16 @@
     setText("sum-total", money(tot.total, tot.currency));
     setText("doc-total", money(tot.total, tot.currency));
 
-    // Notes / terms
     const notes = [doc.notes, doc.terms].filter(Boolean).join("\n\n").trim();
     if (notes) {
       show("notes-card");
       setText("notes-text", notes);
     }
 
-    // Payment methods
     const pay = p.pay || {};
     const payRows = [
-      ["Zelle", pay.zelle],
-      ["Venmo", pay.venmo],
-      ["Cash App", pay.cashapp],
-      ["PayPal", pay.paypal],
+      ["Zelle", pay.zelle], ["Venmo", pay.venmo],
+      ["Cash App", pay.cashapp], ["PayPal", pay.paypal],
     ].filter(([, v]) => v && String(v).trim());
     if (payRows.length) {
       show("pay-card");
@@ -252,46 +256,136 @@
       ).join("");
     }
 
-    // Localise CTA buttons
-    $("btn-approve").lastChild.nodeValue = " " + T.approveBtn;
-    $("btn-pdf").lastChild.nodeValue = " " + T.pdfBtn;
+    $("btn-accept").querySelector("span").textContent = T.acceptBtn;
+    $("btn-decline").querySelector("span").textContent = T.declineBtn;
+    $("modal-cancel").textContent = T.cancel;
+    $("reason-input").placeholder = T.reasonPlaceholder;
+    setText("channel-wa-sub", T.channelWaSub);
+    setText("channel-sms-sub", T.channelSmsSub);
 
-    // Wire actions (attach after render so payload closure is fresh)
-    $("btn-approve").addEventListener("click", () => onApprove(p));
+    document.querySelector("#channel-wa .channel-title").textContent = T.channelWa;
+    document.querySelector("#channel-sms .channel-title").textContent = T.channelSms;
+    document.querySelector("#channel-copy .channel-title").textContent = T.channelCopy;
+    document.querySelector("#channel-copy .channel-sub").textContent = T.channelCopySub;
+
+    $("btn-accept").addEventListener("click", () => openResponseModal("accepted"));
+    $("btn-decline").addEventListener("click", () => openResponseModal("declined"));
     $("btn-pdf").addEventListener("click", () => onDownloadPdf(p));
+    $("modal-cancel").addEventListener("click", closeResponseModal);
+    $("modal-backdrop").addEventListener("click", closeResponseModal);
+    $("channel-wa").addEventListener("click", () => sendVia("wa"));
+    $("channel-sms").addEventListener("click", () => sendVia("sms"));
+    $("channel-copy").addEventListener("click", () => sendVia("copy"));
 
-    // Reveal
     hide("loading");
     show("viewer");
+    show("action-bar");
   }
 
-  // ─── Actions ───────────────────────────────────────────
-  function normalizeWaNumber(raw) {
+  function openResponseModal(action) {
+    currentAction = action;
+    setText("modal-title", action === "accepted" ? T.modalTitleAccept : T.modalTitleDecline);
+    setText("modal-sub", action === "accepted" ? T.modalSubAccept : T.modalSubDecline);
+
+    if (action === "declined") {
+      show("reason-wrap");
+      $("reason-wrap").querySelector(".reason-label").textContent = T.reasonLabel;
+      $("reason-input").value = "";
+    } else {
+      hide("reason-wrap");
+    }
+    show("response-modal");
+    if (action === "declined") setTimeout(() => $("reason-input")?.focus(), 260);
+  }
+
+  function closeResponseModal() {
+    hide("response-modal");
+  }
+
+  function normalizePhone(raw) {
     if (!raw) return "";
-    // Strip everything except digits and leading +
-    let s = String(raw).trim();
-    const hasPlus = s.startsWith("+");
-    s = s.replace(/[^\d]/g, "");
-    return (hasPlus ? "" : "") + s; // wa.me expects digits only, no +
+    return String(raw).trim().replace(/[^\d]/g, "");
   }
 
-  function onApprove(p) {
-    const wa = normalizeWaNumber(p.biz?.phone || p.wa || "");
+  function buildResponseMessage() {
+    const p = currentPayload || {};
     const num = p.doc?.number || "";
     const total = money(p.totals?.total, p.totals?.currency);
-    const text = T.approvalText.replace("{NUM}", num).replace("{TOTAL}", total);
-    if (!wa) {
-      alert(T.noWhatsappSet);
-      return;
+    const tpl = currentAction === "accepted" ? T.acceptText : T.declineText;
+    let msg = tpl.replace("{NUM}", num).replace("{TOTAL}", total);
+    const reason = ($("reason-input")?.value || "").trim();
+    if (currentAction === "declined" && reason) {
+      msg += `\n${T.reasonPrefix} ${reason}`;
     }
-    const encoded = encodeURIComponent(text);
-    const url = `https://wa.me/${wa}?text=${encoded}`;
-    // On mobile, open in same tab so the WhatsApp app takes over
-    // deep-linking gracefully. On desktop, opens web.whatsapp.com.
-    window.open(url, "_blank", "noopener");
+    const deepLink = buildDeepLink(reason);
+    if (deepLink) {
+      msg += `\n\n${T.appLinkNote}\n${deepLink}`;
+    }
+    return msg;
   }
 
-  // ─── PDF generation (jsPDF + autotable) ────────────────
+  function buildDeepLink(reason) {
+    const p = currentPayload || {};
+    const id = p.doc?.id || "";
+    const num = p.doc?.number || "";
+    if (!id && !num) return "";
+    const params = new URLSearchParams();
+    if (id) params.set("id", id);
+    if (num) params.set("num", num);
+    params.set("action", currentAction);
+    if (reason) params.set("reason", reason.substring(0, 200));
+    return `nexusbillings://quote-response?${params.toString()}`;
+  }
+
+  function sendVia(channel) {
+    const p = currentPayload || {};
+    const message = buildResponseMessage();
+
+    if (channel === "copy") {
+      navigator.clipboard.writeText(message).then(() => {
+        showToast(T.copied);
+        closeResponseModal();
+      }).catch(() => {
+        const ta = document.createElement("textarea");
+        ta.value = message;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); } catch (_e) {}
+        document.body.removeChild(ta);
+        showToast(T.copied);
+        closeResponseModal();
+      });
+      return;
+    }
+
+    const wa = normalizePhone(p.contact?.wa || p.biz?.phone || "");
+    const sms = normalizePhone(p.contact?.sms || p.biz?.phone || "");
+    let url = "";
+    if (channel === "wa") {
+      if (!wa) { alert(T.channelUnavailable); return; }
+      url = `https://wa.me/${wa}?text=${encodeURIComponent(message)}`;
+    } else if (channel === "sms") {
+      if (!sms) { alert(T.channelUnavailable); return; }
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const sep = isIOS ? "&" : "?";
+      url = `sms:${sms}${sep}body=${encodeURIComponent(message)}`;
+    }
+    if (url) {
+      closeResponseModal();
+      window.open(url, "_blank", "noopener");
+    }
+  }
+
+  function showToast(text) {
+    const el = $("toast");
+    el.textContent = text;
+    el.classList.remove("hidden");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => el.classList.add("hidden"), 2200);
+  }
+
   function onDownloadPdf(p) {
     try {
       const { jsPDF } = window.jspdf;
@@ -303,14 +397,12 @@
       const brand = p.biz?.brand || "#EA580C";
       const cur = p.totals?.currency || "USD";
 
-      // ─── Header (business info + doc number) ───
-      // Logo on the left, business info centre, doc badge on the right.
       const logo = p.biz?.logo;
       if (logo && typeof logo === "string" && logo.startsWith("data:image/")) {
         try {
           const ext = logo.startsWith("data:image/png") ? "PNG" : "JPEG";
           doc.addImage(logo, ext, margin, cursorY, 60, 60, undefined, "FAST");
-        } catch (_e) { /* ignore bad logo */ }
+        } catch (_e) {}
       }
 
       doc.setFont("helvetica", "bold");
@@ -326,12 +418,10 @@
       const contactLine = [p.biz?.phone, p.biz?.email].filter(Boolean).join("  ·  ");
       if (contactLine) { doc.text(contactLine, margin + 72, by); by += 12; }
 
-      // Right side: quote number & date
       doc.setFont("helvetica", "bold");
       doc.setFontSize(22);
       doc.setTextColor(brand);
-      const title = T.quotePrefix.toUpperCase();
-      doc.text(title, pageW - margin, cursorY + 22, { align: "right" });
+      doc.text(T.quotePrefix.toUpperCase(), pageW - margin, cursorY + 22, { align: "right" });
       doc.setFontSize(11);
       doc.setTextColor(30, 30, 30);
       doc.text(`#${p.doc?.number || ""}`, pageW - margin, cursorY + 40, { align: "right" });
@@ -347,13 +437,11 @@
 
       cursorY = Math.max(cursorY + 88, by + 6);
 
-      // Divider
       doc.setDrawColor(220, 220, 220);
       doc.setLineWidth(0.5);
       doc.line(margin, cursorY, pageW - margin, cursorY);
       cursorY += 18;
 
-      // ─── Client block ───
       doc.setFont("helvetica", "bold");
       doc.setFontSize(9);
       doc.setTextColor(brand);
@@ -364,20 +452,17 @@
       doc.setTextColor(30, 30, 30);
       const cl = p.client || {};
       const clLines = [
-        cl.name,
-        cl.address,
+        cl.name, cl.address,
         [cl.city, cl.state, cl.zip].filter(Boolean).join(", "),
-        cl.phone,
-        cl.email,
+        cl.phone, cl.email,
       ].filter(Boolean);
       clLines.forEach((line) => { doc.text(String(line), margin, cursorY); cursorY += 13; });
       cursorY += 8;
 
-      // ─── Items table ───
       const items = Array.isArray(p.items) ? p.items : [];
       const body = items.map((it) => [
         (it.d || "") + (it.type ? `\n(${it.type})` : ""),
-        formatQty(it.q, p.doc?.kind, it.type),
+        formatQty(it.q, p.doc?.kind),
         money(it.p, cur),
         money(it.t, cur),
       ]);
@@ -398,7 +483,6 @@
       });
       cursorY = doc.lastAutoTable.finalY + 14;
 
-      // ─── Totals ───
       const tot = p.totals || {};
       const rightX = pageW - margin;
       const labelX = pageW - margin - 130;
@@ -424,7 +508,6 @@
         doc.text(money(tot.tax, cur), rightX, cursorY, { align: "right" });
         cursorY += 14;
       }
-      // Total (highlighted)
       doc.setDrawColor(30, 30, 30);
       doc.setLineWidth(0.8);
       doc.line(labelX, cursorY - 2, rightX, cursorY - 2);
@@ -437,7 +520,6 @@
       doc.text(money(tot.total, cur), rightX, cursorY, { align: "right" });
       cursorY += 22;
 
-      // ─── Notes ───
       const notes = [p.doc?.notes, p.doc?.terms].filter(Boolean).join("\n\n").trim();
       if (notes) {
         doc.setFont("helvetica", "bold");
@@ -453,25 +535,22 @@
         cursorY += wrapped.length * 12 + 6;
       }
 
-      // ─── Footer ───
       const footerY = doc.internal.pageSize.getHeight() - 30;
       doc.setDrawColor(220, 220, 220);
       doc.line(margin, footerY - 12, pageW - margin, footerY - 12);
       doc.setFont("helvetica", "normal");
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
-      doc.text("Generated with Nexus Billings — voice-coder.github.io", pageW / 2, footerY, { align: "center" });
+      doc.text("Generated with Nexus Billings", pageW / 2, footerY, { align: "center" });
 
-      // Save
       const filename = `${T.quotePrefix}-${(p.doc?.number || "quote").replace(/[^\w.-]+/g, "_")}.pdf`;
       doc.save(filename);
     } catch (err) {
       console.error("[quote-viewer] PDF generation failed", err);
-      alert("No pudimos generar el PDF. Intenta nuevamente.");
+      alert(T.pdfError);
     }
   }
 
-  // ─── Bootstrap ─────────────────────────────────────────
   function showError(msg) {
     hide("loading");
     if (msg) setText("error-msg", msg);
@@ -480,20 +559,12 @@
 
   window.addEventListener("DOMContentLoaded", () => {
     const payload = readPayload();
-    if (!payload) {
-      showError();
-      return;
-    }
-    if (payload.v !== 1) {
-      showError();
-      return;
-    }
-    try {
-      render(payload);
-    } catch (e) {
+    if (!payload) { showError(); return; }
+    if (payload.v !== 1) { showError(); return; }
+    try { render(payload); }
+    catch (e) {
       console.error("[quote-viewer] Render failed", e);
       showError();
     }
   });
 })();
-
