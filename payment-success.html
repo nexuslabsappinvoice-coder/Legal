@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>¡Pago recibido! · Nexus Billings</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✅%3C/text%3E%3C/svg%3E">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+      background:linear-gradient(135deg,#EEF2FF 0%,#F5F3FF 50%,#FCE7F3 100%);
+      min-height:100vh;
+      display:flex;align-items:center;justify-content:center;
+      padding:24px;
+      color:#111827;
+      -webkit-font-smoothing:antialiased;
+    }
+    .card{
+      background:#fff;border-radius:28px;padding:40px 28px 32px;
+      max-width:440px;width:100%;text-align:center;
+      box-shadow:0 25px 80px rgba(99,91,255,0.18),0 4px 12px rgba(0,0,0,0.04);
+      position:relative;overflow:hidden;
+    }
+    .card::before{
+      content:"";position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+      width:200px;height:200px;
+      background:radial-gradient(circle,rgba(16,185,129,0.15) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .icon{
+      width:100px;height:100px;border-radius:50px;
+      background:linear-gradient(135deg,#10B981 0%,#059669 100%);
+      display:flex;align-items:center;justify-content:center;
+      margin:0 auto 20px;
+      box-shadow:0 12px 30px rgba(16,185,129,0.35);
+      animation:pop 0.6s cubic-bezier(0.34,1.56,0.64,1);
+      position:relative;z-index:1;
+    }
+    .icon svg{width:56px;height:56px;color:#fff}
+    @keyframes pop{
+      0%{transform:scale(0);opacity:0}
+      60%{transform:scale(1.15)}
+      100%{transform:scale(1);opacity:1}
+    }
+    h1{
+      color:#111827;font-size:28px;font-weight:800;margin-bottom:12px;
+      letter-spacing:-0.02em;position:relative;z-index:1;
+    }
+    .subtitle{
+      color:#6B7280;font-size:15px;line-height:1.55;margin-bottom:28px;
+      position:relative;z-index:1;
+    }
+    .amount-box{
+      background:#F0FDF4;border:1px solid #BBF7D0;border-radius:16px;
+      padding:16px;margin-bottom:24px;
+    }
+    .amount-label{
+      font-size:11px;font-weight:700;color:#065F46;
+      text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;
+    }
+    .amount-value{
+      font-size:32px;font-weight:800;color:#059669;letter-spacing:-0.02em;
+    }
+    .btn{
+      display:inline-block;width:100%;
+      background:#635BFF;color:#fff !important;
+      padding:16px 28px;border-radius:14px;
+      text-decoration:none;font-weight:800;font-size:16px;
+      box-shadow:0 8px 24px rgba(99,91,255,0.35);
+      transition:transform 0.15s ease,box-shadow 0.15s ease;
+    }
+    .btn:active{
+      transform:scale(0.97);
+      box-shadow:0 4px 14px rgba(99,91,255,0.25);
+    }
+    .footer{
+      margin-top:24px;font-size:12px;color:#9CA3AF;line-height:1.5;
+    }
+    .powered{
+      margin-top:16px;font-size:11px;color:#D1D5DB;
+    }
+    .powered strong{color:#9CA3AF}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+
+    <h1>¡Pago recibido!</h1>
+    <p class="subtitle">
+      Gracias por tu pago. La transacción se procesó exitosamente
+      y quedará registrada en tu recibo.
+    </p>
+
+    <div class="amount-box" id="amountBox" style="display:none">
+      <div class="amount-label">Monto pagado</div>
+      <div class="amount-value" id="amountValue">—</div>
+    </div>
+
+    <a class="btn" id="openApp" href="nexusbillings://payment-success">
+      Abrir Nexus Billings
+    </a>
+
+    <p class="footer">
+      Puedes cerrar esta ventana con seguridad.
+      El comprobante estará disponible en tu email o directamente en la app.
+    </p>
+
+    <p class="powered">Powered by <strong>Stripe</strong> · Nexus Billings</p>
+  </div>
+
+  <script>
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var sessionId = params.get("session_id") || params.get("payment_intent") || "";
+      var amount = params.get("amount");
+
+      if (amount) {
+        var currency = params.get("currency") || "USD";
+        document.getElementById("amountBox").style.display = "block";
+        document.getElementById("amountValue").textContent =
+          currency.toUpperCase() + " " + (parseFloat(amount) / 100).toFixed(2);
+      }
+
+      if (sessionId) {
+        var deepLink = "nexusbillings://payment-success?session_id=" +
+          encodeURIComponent(sessionId);
+        document.getElementById("openApp").href = deepLink;
+      }
+    } catch (e) { /* ignore */ }
+  </script>
+</body>
+</html>
+
